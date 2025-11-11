@@ -88,7 +88,7 @@
   <div class="container">
     <header>
       <div class="brand">
-        <div class="logo"><span>DB</span></div>
+        <div class="logo" aria-hidden="true"><span>DB</span></div>
         <div>
           <div style="font-weight:700">Discord Bot Hosting</div>
           <div style="font-size:13px;color:var(--muted)">Schnell. Zuverlässig. Schwarz/Grau/Weiß</div>
@@ -136,7 +136,7 @@
           <div class="plan">
             <h4>Enterprise</h4>
             <div class="price">Kontakt</div>
-            <p style="color:var(--muted);margin-top:8px">Dedizierte Ressourcen & SLA</p>
+            <p style="color:var(--muted);margin-top:8px">Dedizierte Ressourcen &amp; SLA</p>
           </div>
         </div>
 
@@ -144,7 +144,7 @@
 
       <aside class="card">
         <div class="preview" aria-hidden="true">
-          <div class="bg-anim">
+          <div class="bg-anim" aria-hidden="true">
             <div class="wave w1"></div>
             <div class="wave w2"></div>
             <div class="wave w3"></div>
@@ -158,24 +158,25 @@
             <div style="font-size:12px;color:var(--muted)">Uptime: 99.99%</div>
           </div>
 
-          <div class="message-list">
-            <div class="msg">
-              <div class="avatar">A</div>
+          <div class="message-list" id="message-list">
+            <div class="msg" role="article" aria-label="Log 1">
+              <div class="avatar" aria-hidden="true">A</div>
               <div class="bubble">Starte Deploy... <span style="color:var(--muted);font-size:11px">OK</span></div>
             </div>
-            <div class="msg">
-              <div class="avatar">B</div>
+            <div class="msg" role="article" aria-label="Log 2">
+              <div class="avatar" aria-hidden="true">B</div>
               <div class="bubble">Bot verbunden mit #general</div>
             </div>
-            <div class="msg">
-              <div class="avatar">S</div>
+            <div class="msg" role="article" aria-label="Log 3">
+              <div class="avatar" aria-hidden="true">S</div>
               <div class="bubble">Ready — Slash-Commands aktiv</div>
             </div>
           </div>
         </div>
 
         <div style="margin-top:16px;display:flex;gap:8px;justify-content:space-between;align-items:center">
-          <button class="toggle-btn" id="log-toggle">Live-Logs</button>
+          <!-- Anfangszustand: Logs sichtbar => Button zeigt 'Logs ausblenden' -->
+          <button class="toggle-btn" id="log-toggle">Logs ausblenden</button>
           <button class="toggle-btn" id="deploy-btn">Deploy</button>
         </div>
 
@@ -196,18 +197,27 @@
   <script>
     // kleine Interaktionen: Demo-Feedback
     document.getElementById('deploy-btn').addEventListener('click', function(e){
-      const btn = e.currentTarget; btn.disabled = true; btn.textContent = 'Deploy läuft...';
-      setTimeout(()=>{btn.textContent='Deployed';btn.disabled=false},1200);
+      const btn = e.currentTarget;
+      btn.disabled = true;
+      btn.textContent = 'Deploy läuft...';
+      setTimeout(()=>{
+        btn.textContent = 'Deployed';
+        btn.disabled = false;
+      },1200);
     });
 
+    // Toggle-Logik korrigiert: wenn Liste versteckt ist -> zeigen und Button 'Logs ausblenden'
     document.getElementById('log-toggle').addEventListener('click', function(e){
-      const list = document.querySelector('.message-list');
-      if(list.style.display === 'none'){
+      const list = document.getElementById('message-list');
+      const btn = e.currentTarget;
+      // list.style.display will be "" if not explicitly set; check computed style
+      const isHidden = window.getComputedStyle(list).display === 'none';
+      if (isHidden) {
         list.style.display = 'flex';
-        e.currentTarget.textContent = 'Live-Logs';
+        btn.textContent = 'Logs ausblenden';
       } else {
         list.style.display = 'none';
-        e.currentTarget.textContent = 'Logs ausblenden';
+        btn.textContent = 'Live-Logs';
       }
     });
   </script>
