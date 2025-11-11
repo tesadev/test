@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Discord-Bot Hosting — Schwarz/Grau/Weiß</title>
+  <meta name="description" content="Landingpage: Discord-Bot Hosting mit Animationen. Farben: schwarz, grau, weiß." />
+  <style>
+    /* Farbpalette: schwarz, grau, weiß */
+    :root{
+      --bg:#0b0b0b;          /* sehr dunkel */
+      --surface:#111111;     /* Karten */
+      --muted:#9ca3af;       /* helles grau */
+      --soft:#1f1f1f;        /* etwas helleres schwarz */
+      --accent:#ffffff;      /* weiße Akzente */
+      --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:var(--accent);background:radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent), var(--bg);}
+
+    .container{max-width:1100px;margin:36px auto;padding:20px}
+
+    header{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#1b1b1b,#2b2b2b);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}
+    .logo span{font-weight:800;color:var(--accent);font-size:18px}
+    nav a{margin-left:18px;text-decoration:none;color:var(--muted);font-size:15px}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:28px}
+    .card{background:linear-gradient(180deg,var(--surface),var(--soft));border-radius:14px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.03)}
+
+    h1{margin:0 0 10px;font-size:30px;line-height:1.05}
+    p.lead{margin:0;color:var(--muted);font-size:15px}
+
+    .cta{display:inline-block;margin-top:16px;padding:12px 16px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.12);text-decoration:none;color:var(--accent);font-weight:600}
+
+    /* Animierte Vorschau-Box */
+    .preview{
+      height:240px;border-radius:12px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.04);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    }
+    /* Simulierter Discord-Chat-Animation */
+    .message-list{position:absolute;bottom:12px;left:12px;right:12px;display:flex;flex-direction:column;gap:10px}
+    .msg{display:flex;gap:12px;align-items:flex-start;opacity:0;transform:translateY(10px);animation:slideIn 900ms ease forwards}
+    .avatar{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#2b2b2b,#1b1b1b);border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+    .bubble{background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:10px;color:var(--accent);font-size:13px;border:1px solid rgba(255,255,255,0.02)}
+    .msg:nth-child(1){animation-delay:300ms}
+    .msg:nth-child(2){animation-delay:650ms}
+    .msg:nth-child(3){animation-delay:1000ms}
+
+    @keyframes slideIn{
+      to{opacity:1;transform:none}
+    }
+
+    /* Wellen-Animation im Hintergrund */
+    .bg-anim{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .wave{position:absolute;width:600px;height:600px;border-radius:50%;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);filter:blur(60px);opacity:0.9;animation:float 8s ease-in-out infinite}
+    .wave.w1{left:-120px;top:-140px;animation-duration:10s}
+    .wave.w2{right:-160px;top:40px;animation-duration:14s}
+    .wave.w3{left:30%;bottom:-180px;animation-duration:12s}
+
+    @keyframes float{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
+
+    /* Features */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+    .feature{padding:16px;border-radius:10px;background:linear-gradient(180deg,var(--surface),#141414);border:1px solid rgba(255,255,255,0.02)}
+    .feature h3{margin:0 0 8px;font-size:16px}
+    .feature p{margin:0;color:var(--muted);font-size:13px}
+
+    /* Pricing */
+    .pricing{display:flex;gap:16px;margin-top:22px}
+    .plan{flex:1;padding:18px;border-radius:12px;background:linear-gradient(180deg,#0f0f0f,#141414);border:1px solid rgba(255,255,255,0.03)}
+    .plan h4{margin:0 0 8px}
+    .price{font-size:22px;font-weight:700}
+
+    footer{margin-top:36px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Responsiv */
+    @media (max-width:980px){.hero{grid-template-columns:1fr} .features{grid-template-columns:1fr 1fr} .pricing{flex-direction:column}}
+    @media (max-width:520px){nav{display:none}}
+
+    /* kleine Interaktionen */
+    .toggle-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo"><span>DB</span></div>
+        <div>
+          <div style="font-weight:700">Discord Bot Hosting</div>
+          <div style="font-size:13px;color:var(--muted)">Schnell. Zuverlässig. Schwarz/Grau/Weiß</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#pricing">Preise</a>
+        <a href="#contact">Kontakt</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <section class="card">
+        <h1>Hoste deinen Discord-Bot — ohne Aufwand</h1>
+        <p class="lead">Automatische Deployments, 99.99% Uptime, einfache Weboberfläche und Echtzeit-Logs. Starte in weniger als 5 Minuten.</p>
+        <a class="cta" href="#pricing">Jetzt loslegen</a>
+
+        <div class="features" id="features">
+          <div class="feature">
+            <h3>Auto-Restarts</h3>
+            <p>Dein Bot bleibt online — wir kümmern uns um Neustarts und Healthchecks.</p>
+          </div>
+          <div class="feature">
+            <h3>Echtzeit-Logs</h3>
+            <p>Live-Logs im Browser, suchbar und filterbar.</p>
+          </div>
+          <div class="feature">
+            <h3>Skalierbar</h3>
+            <p>Leistung je nach Bedarf — von Hobby bis Produktiv.</p>
+          </div>
+        </div>
+
+        <div class="pricing" id="pricing">
+          <div class="plan">
+            <h4>Hobby</h4>
+            <div class="price">€3 / Monat</div>
+            <p style="color:var(--muted);margin-top:8px">1 vCPU · 512MB RAM · 1 Bot</p>
+          </div>
+          <div class="plan">
+            <h4>Pro</h4>
+            <div class="price">€9 / Monat</div>
+            <p style="color:var(--muted);margin-top:8px">2 vCPU · 2GB RAM · unbegrenzt Bots</p>
+          </div>
+          <div class="plan">
+            <h4>Enterprise</h4>
+            <div class="price">Kontakt</div>
+            <p style="color:var(--muted);margin-top:8px">Dedizierte Ressourcen & SLA</p>
+          </div>
+        </div>
+
+      </section>
+
+      <aside class="card">
+        <div class="preview" aria-hidden="true">
+          <div class="bg-anim">
+            <div class="wave w1"></div>
+            <div class="wave w2"></div>
+            <div class="wave w3"></div>
+          </div>
+
+          <div style="position:absolute;left:12px;top:12px;right:12px;display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div style="width:10px;height:10px;border-radius:50%;background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.12)"></div>
+              <div style="font-size:13px;color:var(--muted)">Bot: MyHelper</div>
+            </div>
+            <div style="font-size:12px;color:var(--muted)">Uptime: 99.99%</div>
+          </div>
+
+          <div class="message-list">
+            <div class="msg">
+              <div class="avatar">A</div>
+              <div class="bubble">Starte Deploy... <span style="color:var(--muted);font-size:11px">OK</span></div>
+            </div>
+            <div class="msg">
+              <div class="avatar">B</div>
+              <div class="bubble">Bot verbunden mit #general</div>
+            </div>
+            <div class="msg">
+              <div class="avatar">S</div>
+              <div class="bubble">Ready — Slash-Commands aktiv</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;display:flex;gap:8px;justify-content:space-between;align-items:center">
+          <button class="toggle-btn" id="log-toggle">Live-Logs</button>
+          <button class="toggle-btn" id="deploy-btn">Deploy</button>
+        </div>
+
+      </aside>
+    </main>
+
+    <section class="card" style="margin-top:20px">
+      <h2 style="margin-top:0">Warum unser Hosting?</h2>
+      <p style="color:var(--muted)">Wir bieten spezialisiertes Hosting für Discord-Bots: optimierte Startzeiten, einfache Integration mit GitHub/GitLab, automatisches SSL, und freundlicher Support.</p>
+    </section>
+
+    <footer id="contact">
+      <div class="card" style="display:inline-block;padding:12px 16px;border-radius:10px;margin-top:14px">Kontakt: <span style="color:var(--muted)">support@dein-host.de</span></div>
+      <div style="margin-top:12px;color:var(--muted)">© 2025 Discord Bot Hosting</div>
+    </footer>
+  </div>
+
+  <script>
+    // kleine Interaktionen: Demo-Feedback
+    document.getElementById('deploy-btn').addEventListener('click', function(e){
+      const btn = e.currentTarget; btn.disabled = true; btn.textContent = 'Deploy läuft...';
+      setTimeout(()=>{btn.textContent='Deployed';btn.disabled=false},1200);
+    });
+
+    document.getElementById('log-toggle').addEventListener('click', function(e){
+      const list = document.querySelector('.message-list');
+      if(list.style.display === 'none'){
+        list.style.display = 'flex';
+        e.currentTarget.textContent = 'Live-Logs';
+      } else {
+        list.style.display = 'none';
+        e.currentTarget.textContent = 'Logs ausblenden';
+      }
+    });
+  </script>
+</body>
+</html>
