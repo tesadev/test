@@ -8,80 +8,109 @@
   <style>
     /* Farbpalette: schwarz, grau, weiß */
     :root{
-      --bg:#0b0b0b;          /* sehr dunkel */
-      --surface:#111111;     /* Karten */
-      --muted:#9ca3af;       /* helles grau */
-      --soft:#1f1f1f;        /* etwas helleres schwarz */
-      --accent:#ffffff;      /* weiße Akzente */
+      --bg:#0b0b0b;
+      --surface:#111111;
+      --soft:#1f1f1f;
+      --muted:#9ca3af;
+      --accent:#ffffff;
       --glass: rgba(255,255,255,0.03);
+      --accent-weak: rgba(255,255,255,0.06);
+      --success: #10b981;
+      --danger: #ef4444;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:var(--accent);background:radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent), var(--bg);}
+    * { box-sizing: border-box; }
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:var(--accent);background:radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent), var(--bg);-webkit-font-smoothing:antialiased}
+    a { color: inherit; }
 
-    .container{max-width:1100px;margin:36px auto;padding:20px}
-
-    header{display:flex;align-items:center;justify-content:space-between}
+    /* Layout */
+    .container{max-width:1200px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#1b1b1b,#2b2b2b);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}
-    .logo span{font-weight:800;color:var(--accent);font-size:18px}
-    nav a{margin-left:18px;text-decoration:none;color:var(--muted);font-size:15px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#131313,#262626);display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-weak)}
+    .logo span{font-weight:800;font-size:18px;color:var(--accent)}
+    nav{display:flex;gap:16px;align-items:center}
+    .nav-toggle{display:none}
 
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:28px}
-    .card{background:linear-gradient(180deg,var(--surface),var(--soft));border-radius:14px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.03)}
-
-    h1{margin:0 0 10px;font-size:30px;line-height:1.05}
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 440px;gap:28px;align-items:start;margin-top:18px}
+    .card{background:linear-gradient(180deg,var(--surface),var(--soft));border-radius:14px;padding:22px;box-shadow:0 12px 40px rgba(0,0,0,0.6);border:1px solid var(--accent-weak)}
+    h1{margin:0 0 10px;font-size:32px;line-height:1.02}
     p.lead{margin:0;color:var(--muted);font-size:15px}
+    .cta{display:inline-block;margin-top:16px;padding:12px 16px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.12);text-decoration:none;color:var(--accent);font-weight:700}
 
-    .cta{display:inline-block;margin-top:16px;padding:12px 16px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.12);text-decoration:none;color:var(--accent);font-weight:600}
-
-    /* Animierte Vorschau-Box */
-    .preview{
-      height:240px;border-radius:12px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.04);
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    }
-    /* Simulierter Discord-Chat-Animation */
-    .message-list{position:absolute;bottom:12px;left:12px;right:12px;display:flex;flex-direction:column;gap:10px}
-    .msg{display:flex;gap:12px;align-items:flex-start;opacity:0;transform:translateY(10px);animation:slideIn 900ms ease forwards}
-    .avatar{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#2b2b2b,#1b1b1b);border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
-    .bubble{background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:10px;color:var(--accent);font-size:13px;border:1px solid rgba(255,255,255,0.02)}
-    .msg:nth-child(1){animation-delay:300ms}
-    .msg:nth-child(2){animation-delay:650ms}
-    .msg:nth-child(3){animation-delay:1000ms}
-
-    @keyframes slideIn{
-      to{opacity:1;transform:none}
-    }
-
-    /* Wellen-Animation im Hintergrund */
+    /* preview */
+    .preview{height:300px;border-radius:12px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
     .bg-anim{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-    .wave{position:absolute;width:600px;height:600px;border-radius:50%;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);filter:blur(60px);opacity:0.9;animation:float 8s ease-in-out infinite}
-    .wave.w1{left:-120px;top:-140px;animation-duration:10s}
-    .wave.w2{right:-160px;top:40px;animation-duration:14s}
-    .wave.w3{left:30%;bottom:-180px;animation-duration:12s}
+    .wave{position:absolute;width:500px;height:500px;border-radius:50%;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);filter:blur(60px);opacity:0.85;animation:float 10s ease-in-out infinite}
+    .wave.w1{left:-120px;top:-100px;animation-duration:12s}
+    .wave.w2{right:-160px;top:10px;animation-duration:16s}
+    .wave.w3{left:30%;bottom:-160px;animation-duration:14s}
+    @keyframes float{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-25px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
 
-    @keyframes float{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
+    /* message preview (chat) */
+    .message-list{position:absolute;bottom:12px;left:12px;right:12px;display:flex;flex-direction:column;gap:10px;max-height:200px;overflow:hidden}
+    .msg{display:flex;gap:12px;align-items:flex-start;opacity:0;transform:translateY(8px);animation:slideIn 900ms ease forwards}
+    .avatar{width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,#2b2b2b,#1b1b1b);border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+    .bubble{background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:10px;color:var(--accent);font-size:13px;border:1px solid rgba(255,255,255,0.02);max-width:78%}
+    .msg:nth-child(1){animation-delay:300ms}
+    .msg:nth-child(2){animation-delay:630ms}
+    .msg:nth-child(3){animation-delay:980ms}
+    @keyframes slideIn{to{opacity:1;transform:none}}
 
-    /* Features */
-    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+    /* features */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
     .feature{padding:16px;border-radius:10px;background:linear-gradient(180deg,var(--surface),#141414);border:1px solid rgba(255,255,255,0.02)}
-    .feature h3{margin:0 0 8px;font-size:16px}
+    .feature h3{margin:0 0 8px;font-size:15px}
     .feature p{margin:0;color:var(--muted);font-size:13px}
 
-    /* Pricing */
-    .pricing{display:flex;gap:16px;margin-top:22px}
-    .plan{flex:1;padding:18px;border-radius:12px;background:linear-gradient(180deg,#0f0f0f,#141414);border:1px solid rgba(255,255,255,0.03)}
+    /* stats & pricing */
+    .stats{display:flex;gap:12px;margin-top:18px}
+    .stat{flex:1;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);text-align:center}
+    .stat .number{font-size:20px;font-weight:800}
+    .pricing{display:flex;gap:12px;margin-top:18px}
+    .plan{flex:1;padding:16px;border-radius:12px;background:linear-gradient(180deg,#0f0f0f,#141414);border:1px solid rgba(255,255,255,0.03)}
     .plan h4{margin:0 0 8px}
-    .price{font-size:22px;font-weight:700}
+    .price{font-size:22px;font-weight:800}
+    .billing-toggle{display:inline-grid;grid-auto-flow:column;gap:6px;border-radius:999px;padding:4px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);align-items:center}
 
-    footer{margin-top:36px;text-align:center;color:var(--muted);font-size:13px}
+    /* controls (log simulator settings) */
+    .controls{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+    .control {background:transparent;border:1px solid var(--accent-weak);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+    .control.primary{border-color:var(--accent);color:var(--accent);font-weight:700}
 
-    /* Responsiv */
-    @media (max-width:980px){.hero{grid-template-columns:1fr} .features{grid-template-columns:1fr 1fr} .pricing{flex-direction:column}}
-    @media (max-width:520px){nav{display:none}}
+    /* testimonials */
+    .testimonials{display:flex;gap:12px;margin-top:18px;overflow:hidden}
+    .testimonial{min-width:260px;padding:14px;border-radius:10px;background:linear-gradient(180deg,var(--surface),#111);border:1px solid rgba(255,255,255,0.02)}
 
-    /* kleine Interaktionen */
-    .toggle-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+    /* contact */
+    form{display:grid;gap:10px;margin-top:12px}
+    input,textarea,select{background:transparent;border:1px solid var(--accent-weak);padding:10px;border-radius:8px;color:var(--accent);outline:none}
+    input::placeholder, textarea::placeholder { color: rgba(156,163,175,0.6) }
+    .form-row{display:flex;gap:8px}
+    .form-row > *{flex:1}
 
+    /* footer */
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px;padding-bottom:28px}
+
+    /* small screens */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .features{grid-template-columns:1fr 1fr}
+      .pricing{flex-direction:column}
+      nav{display:none}
+      .nav-toggle{display:inline-block}
+    }
+    @media (max-width:520px){
+      .features{grid-template-columns:1fr}
+      .testimonials{flex-direction:column}
+      .logo{width:44px;height:44px}
+      h1{font-size:24px}
+    }
+
+    /* tiny helpers */
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--accent-weak)}
+    .small{font-size:13px}
   </style>
 </head>
 <body>
@@ -90,135 +119,358 @@
       <div class="brand">
         <div class="logo" aria-hidden="true"><span>DB</span></div>
         <div>
-          <div style="font-weight:700">Discord Bot Hosting</div>
-          <div style="font-size:13px;color:var(--muted)">Schnell. Zuverlässig. Schwarz/Grau/Weiß</div>
+          <div style="font-weight:800">Discord Bot Hosting</div>
+          <div style="font-size:13px;color:var(--muted)">Schnell · Zuverlässig · Schwarz/Grau/Weiß</div>
         </div>
       </div>
-      <nav>
+
+      <nav aria-label="Hauptnavigation">
         <a href="#features">Features</a>
         <a href="#pricing">Preise</a>
         <a href="#contact">Kontakt</a>
       </nav>
+
+      <button class="nav-toggle" aria-expanded="false" aria-label="Navigation öffnen" id="nav-toggle">☰</button>
     </header>
 
     <main class="hero">
-      <section class="card">
-        <h1>Hoste deinen Discord-Bot — ohne Aufwand</h1>
-        <p class="lead">Automatische Deployments, 99.99% Uptime, einfache Weboberfläche und Echtzeit-Logs. Starte in weniger als 5 Minuten.</p>
-        <a class="cta" href="#pricing">Jetzt loslegen</a>
+      <!-- LEFT: Info, Features, Pricing -->
+      <section>
+        <div class="card">
+          <h1>Hoste deinen Discord-Bot — ohne Aufwand</h1>
+          <p class="lead">Automatische Deployments, 99.99% Uptime, einfache Weboberfläche, Echtzeit-Logs und Auto-Scaling. Starte heute.</p>
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <a class="cta" href="#pricing">Jetzt loslegen</a>
+            <div class="pill small">Kostenlose 7-Tage Testphase</div>
+            <div style="margin-left:auto" class="muted small">Kein Kreditkarten-Pflicht</div>
+          </div>
 
-        <div class="features" id="features">
-          <div class="feature">
-            <h3>Auto-Restarts</h3>
-            <p>Dein Bot bleibt online — wir kümmern uns um Neustarts und Healthchecks.</p>
+          <div class="stats" aria-hidden="false">
+            <div class="stat">
+              <div class="number" data-count="9999">0</div>
+              <div class="small muted">Gehostete Bots</div>
+            </div>
+            <div class="stat">
+              <div class="number" data-count="99.99">0</div>
+              <div class="small muted">% Uptime</div>
+            </div>
+            <div class="stat">
+              <div class="number" data-count="0.5">0</div>
+              <div class="small muted">Ø Deployment (min)</div>
+            </div>
           </div>
-          <div class="feature">
-            <h3>Echtzeit-Logs</h3>
-            <p>Live-Logs im Browser, suchbar und filterbar.</p>
+
+          <div class="features" id="features">
+            <div class="feature">
+              <h3>Auto-Restarts</h3>
+              <p>Proaktive Healthchecks & Neustarts bei Fehlern.</p>
+            </div>
+            <div class="feature">
+              <h3>Echtzeit-Logs & Alerts</h3>
+              <p>Websocket-basierte Logs, Download & Filterung.</p>
+            </div>
+            <div class="feature">
+              <h3>Git-Integration</h3>
+              <p>Deploy direkt via GitHub / GitLab Push.</p>
+            </div>
           </div>
-          <div class="feature">
-            <h3>Skalierbar</h3>
-            <p>Leistung je nach Bedarf — von Hobby bis Produktiv.</p>
+
+          <div style="margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <div class="billing-toggle" role="tablist" aria-label="Abrechnung">
+              <button class="control" id="billing-monthly" data-billing="monthly" aria-pressed="true">Monatlich</button>
+              <button class="control" id="billing-yearly" data-billing="yearly" aria-pressed="false">Jährlich (Rabatt)</button>
+            </div>
+          </div>
+
+          <div class="pricing" id="pricing" aria-hidden="false">
+            <div class="plan">
+              <h4>Hobby</h4>
+              <div class="price" data-price-month="3" data-price-year="30">€3 / Monat</div>
+              <p class="muted small">1 vCPU · 512MB RAM · 1 Bot</p>
+            </div>
+            <div class="plan">
+              <h4>Pro</h4>
+              <div class="price" data-price-month="9" data-price-year="90">€9 / Monat</div>
+              <p class="muted small">2 vCPU · 2GB RAM · unbegrenzt Bots</p>
+            </div>
+            <div class="plan">
+              <h4>Enterprise</h4>
+              <div class="price">Kontakt</div>
+              <p class="muted small">Dedizierte Ressourcen & SLA</p>
+            </div>
           </div>
         </div>
 
-        <div class="pricing" id="pricing">
-          <div class="plan">
-            <h4>Hobby</h4>
-            <div class="price">€3 / Monat</div>
-            <p style="color:var(--muted);margin-top:8px">1 vCPU · 512MB RAM · 1 Bot</p>
-          </div>
-          <div class="plan">
-            <h4>Pro</h4>
-            <div class="price">€9 / Monat</div>
-            <p style="color:var(--muted);margin-top:8px">2 vCPU · 2GB RAM · unbegrenzt Bots</p>
-          </div>
-          <div class="plan">
-            <h4>Enterprise</h4>
-            <div class="price">Kontakt</div>
-            <p style="color:var(--muted);margin-top:8px">Dedizierte Ressourcen &amp; SLA</p>
-          </div>
+        <div class="card" style="margin-top:14px">
+          <h3>Was du noch bekommst</h3>
+          <ul style="margin:8px 0 0 18px;color:var(--muted);line-height:1.6">
+            <li>Autom. Backups & Rollbacks</li>
+            <li>Custom Domains & SSL</li>
+            <li>Team-Accounts & Zugriffskontrollen</li>
+          </ul>
         </div>
 
+        <div class="card" style="margin-top:14px">
+          <h3>Kundenstimmen</h3>
+          <div class="testimonials" id="testi">
+            <div class="testimonial">
+              <strong>DevTeam</strong>
+              <p class="muted small">„Einfacher Workflow, super Support — unsere Bots sind stabiler denn je.“</p>
+            </div>
+            <div class="testimonial">
+              <strong>GuildMaster</strong>
+              <p class="muted small">„Die Live-Logs sind Gold wert beim Debuggen in Produktiv.“</p>
+            </div>
+            <div class="testimonial">
+              <strong>StreamerX</strong>
+              <p class="muted small">„Schnelles Deploy, gute Preise — perfekt für kleine Creator.“</p>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <aside class="card">
-        <div class="preview" aria-hidden="true">
-          <div class="bg-anim" aria-hidden="true">
-            <div class="wave w1"></div>
-            <div class="wave w2"></div>
-            <div class="wave w3"></div>
-          </div>
-
-          <div style="position:absolute;left:12px;top:12px;right:12px;display:flex;justify-content:space-between;align-items:center">
+      <!-- RIGHT: Preview, Controls, Live-Logs -->
+      <aside>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
             <div style="display:flex;gap:10px;align-items:center">
-              <div style="width:10px;height:10px;border-radius:50%;background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.12)"></div>
-              <div style="font-size:13px;color:var(--muted)">Bot: MyHelper</div>
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--success);box-shadow:0 0 8px rgba(16,185,129,0.12)"></div>
+              <div class="muted small">Bot: <strong>MyHelper</strong></div>
             </div>
-            <div style="font-size:12px;color:var(--muted)">Uptime: 99.99%</div>
+            <div class="small muted">Uptime: <strong>99.99%</strong></div>
           </div>
 
-          <div class="message-list" id="message-list">
-            <div class="msg" role="article" aria-label="Log 1">
-              <div class="avatar" aria-hidden="true">A</div>
-              <div class="bubble">Starte Deploy... <span style="color:var(--muted);font-size:11px">OK</span></div>
+          <div class="preview" aria-hidden="false">
+            <div class="bg-anim" aria-hidden="true">
+              <div class="wave w1"></div>
+              <div class="wave w2"></div>
+              <div class="wave w3"></div>
             </div>
-            <div class="msg" role="article" aria-label="Log 2">
-              <div class="avatar" aria-hidden="true">B</div>
-              <div class="bubble">Bot verbunden mit #general</div>
+
+            <div class="message-list" id="message-list" aria-live="polite" aria-atomic="false">
+              <div class="msg" role="article" aria-label="Initialer Log">
+                <div class="avatar" aria-hidden="true">S</div>
+                <div class="bubble">Ready — Slash-Commands aktiv</div>
+              </div>
+              <div class="msg" role="article" aria-label="Initialer Log 2">
+                <div class="avatar" aria-hidden="true">B</div>
+                <div class="bubble">Bot verbunden mit #general</div>
+              </div>
             </div>
-            <div class="msg" role="article" aria-label="Log 3">
-              <div class="avatar" aria-hidden="true">S</div>
-              <div class="bubble">Ready — Slash-Commands aktiv</div>
-            </div>
+          </div>
+
+          <div class="controls">
+            <button class="control primary" id="start-logs">Start Logs</button>
+            <button class="control" id="stop-logs" disabled>Stop</button>
+            <button class="control" id="clear-logs">Clear</button>
+            <label class="control small" title="Geschwindigkeit">Speed:
+              <select id="speed" style="background:transparent;border:0;color:var(--muted);margin-left:8px">
+                <option value="1200">Langsam</option>
+                <option value="800" selected>Normal</option>
+                <option value="350">Schnell</option>
+              </select>
+            </label>
+            <div style="margin-left:auto" class="small muted">Logs simuliert</div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <button class="control" id="deploy-btn">Deploy</button>
+            <button class="control" id="restart-btn">Restart</button>
+            <div style="margin-left:auto" class="muted small">Region: EU (Luxembourg)</div>
           </div>
         </div>
 
-        <div style="margin-top:16px;display:flex;gap:8px;justify-content:space-between;align-items:center">
-          <!-- Anfangszustand: Logs sichtbar => Button zeigt 'Logs ausblenden' -->
-          <button class="toggle-btn" id="log-toggle">Logs ausblenden</button>
-          <button class="toggle-btn" id="deploy-btn">Deploy</button>
+        <div class="card" style="margin-top:12px" id="contact">
+          <h3>Kontakt</h3>
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <input type="text" id="name" placeholder="Name" required>
+              <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <select id="plan-select" aria-label="Gewünschter Plan">
+              <option value="hobby">Hobby</option>
+              <option value="pro">Pro</option>
+              <option value="enterprise">Enterprise</option>
+            </select>
+            <textarea id="message" rows="4" placeholder="Nachricht (optional)"></textarea>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button type="submit" class="control primary" style="border:none">Absenden</button>
+              <div id="form-msg" class="muted small" aria-live="polite"></div>
+            </div>
+          </form>
         </div>
-
       </aside>
     </main>
 
-    <section class="card" style="margin-top:20px">
-      <h2 style="margin-top:0">Warum unser Hosting?</h2>
-      <p style="color:var(--muted)">Wir bieten spezialisiertes Hosting für Discord-Bots: optimierte Startzeiten, einfache Integration mit GitHub/GitLab, automatisches SSL, und freundlicher Support.</p>
-    </section>
-
-    <footer id="contact">
-      <div class="card" style="display:inline-block;padding:12px 16px;border-radius:10px;margin-top:14px">Kontakt: <span style="color:var(--muted)">support@dein-host.de</span></div>
-      <div style="margin-top:12px;color:var(--muted)">© 2025 Discord Bot Hosting</div>
+    <footer>
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+        <a class="muted small" href="#">Nutzungsbedingungen</a> ·
+        <a class="muted small" href="#">Datenschutz</a> ·
+        <a class="muted small" href="#">Status</a>
+      </div>
+      <div class="muted small">© 2025 Discord Bot Hosting — Made with ♥ in Europe</div>
     </footer>
   </div>
 
   <script>
-    // kleine Interaktionen: Demo-Feedback
-    document.getElementById('deploy-btn').addEventListener('click', function(e){
-      const btn = e.currentTarget;
-      btn.disabled = true;
-      btn.textContent = 'Deploy läuft...';
-      setTimeout(()=>{
-        btn.textContent = 'Deployed';
-        btn.disabled = false;
-      },1200);
-    });
+    // --- Utilities ---
+    const q = s => document.querySelector(s);
+    const qa = s => Array.from(document.querySelectorAll(s));
 
-    // Toggle-Logik korrigiert: wenn Liste versteckt ist -> zeigen und Button 'Logs ausblenden'
-    document.getElementById('log-toggle').addEventListener('click', function(e){
-      const list = document.getElementById('message-list');
-      const btn = e.currentTarget;
-      // list.style.display will be "" if not explicitly set; check computed style
-      const isHidden = window.getComputedStyle(list).display === 'none';
-      if (isHidden) {
-        list.style.display = 'flex';
-        btn.textContent = 'Logs ausblenden';
-      } else {
-        list.style.display = 'none';
-        btn.textContent = 'Live-Logs';
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate stats numbers
+      qa('.number').forEach(el => {
+        const target = parseFloat(el.dataset.count || 0);
+        let current = 0;
+        const duration = 1200;
+        const start = performance.now();
+        function step(t) {
+          const p = Math.min((t - start)/duration, 1);
+          const ease = p<.5 ? 2*p*p : -1 + (4-2*p)*p; // simple easing
+          const value = target * ease;
+          el.textContent = (target % 1 === 0) ? Math.floor(value) : Math.round(value*100)/100;
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = target;
+        }
+        requestAnimationFrame(step);
+      });
+
+      // Billing toggle
+      const monthlyBtn = q('#billing-monthly');
+      const yearlyBtn = q('#billing-yearly');
+      function setBilling(mode) {
+        monthlyBtn.setAttribute('aria-pressed', mode === 'monthly');
+        yearlyBtn.setAttribute('aria-pressed', mode === 'yearly');
+        qa('.price').forEach(el => {
+          const m = el.dataset.priceMonth || el.dataset.priceMonth?.toString();
+          const y = el.dataset.priceYear || el.dataset.priceYear?.toString();
+          if (el.dataset.priceMonth) {
+            if (mode === 'monthly') el.textContent = '€' + el.dataset.priceMonth + ' / Monat';
+            else el.textContent = '€' + el.dataset.priceYear + ' / Jahr';
+          }
+        });
       }
+      monthlyBtn.addEventListener('click', () => setBilling('monthly'));
+      yearlyBtn.addEventListener('click', () => setBilling('yearly'));
+      setBilling('monthly');
+
+      // Nav toggle (mobile)
+      const navToggle = q('#nav-toggle');
+      navToggle?.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        const open = nav.style.display === 'flex';
+        nav.style.display = open ? 'none' : 'flex';
+        navToggle.setAttribute('aria-expanded', String(!open));
+      });
+
+      // Log Simulator
+      const list = q('#message-list');
+      const startBtn = q('#start-logs');
+      const stopBtn = q('#stop-logs');
+      const clearBtn = q('#clear-logs');
+      const speedSelect = q('#speed');
+
+      let logInterval = null;
+      const messages = [
+        'Starte Deploy... OK',
+        'Bot verbunden mit #general',
+        'Slash-Command registriert',
+        'Warnung: hohe CPU-Auslastung (2.1s)',
+        'Autoscaler: +1 Instanz',
+        'Healthcheck bestanden',
+        'Neustart erfolgreich',
+        'Fehler: Rate Limit erreicht (429) — retry',
+        'Backup abgeschlossen',
+        'Webhook ausgelöst'
+      ];
+
+      function appendLog(text, cls='msg') {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'msg';
+        wrapper.setAttribute('role','article');
+        wrapper.setAttribute('aria-label','Log Eintrag');
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.setAttribute('aria-hidden','true');
+        avatar.textContent = text.charAt(0).toUpperCase();
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = text;
+        wrapper.appendChild(avatar);
+        wrapper.appendChild(bubble);
+        // prepend for newest-first feel
+        list.prepend(wrapper);
+        // animate (force reflow then animate)
+        requestAnimationFrame(()=> wrapper.style.opacity = '1');
+        // keep only last 30
+        const nodes = list.querySelectorAll('.msg');
+        if (nodes.length > 30) nodes[nodes.length - 1].remove();
+      }
+
+      function startLogs() {
+        if (logInterval) return;
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        appendLog('Live-Logs: Verbindung aufgebaut');
+        logInterval = setInterval(() => {
+          const idx = Math.floor(Math.random() * messages.length);
+          appendLog(messages[idx]);
+        }, Number(speedSelect.value));
+      }
+      function stopLogs() {
+        if (!logInterval) return;
+        clearInterval(logInterval);
+        logInterval = null;
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        appendLog('Live-Logs: Verbindung getrennt');
+      }
+      startBtn.addEventListener('click', startLogs);
+      stopBtn.addEventListener('click', stopLogs);
+      clearBtn.addEventListener('click', () => { list.innerHTML = ''; appendLog('Logs gelöscht'); });
+
+      // Deploy / Restart demo actions
+      q('#deploy-btn').addEventListener('click', function(){
+        const btn = this;
+        btn.disabled = true; btn.textContent = 'Deploy läuft...';
+        appendLog('Deploy gestartet: Pull from GitHub');
+        setTimeout(()=> {
+          appendLog('Build erfolgreich');
+          appendLog('Deploy abgeschlossen — Live');
+          btn.textContent = 'Deploy';
+          btn.disabled = false;
+        }, 1600);
+      });
+      q('#restart-btn').addEventListener('click', function(){
+        appendLog('Restart: Bot wird neugestartet');
+        setTimeout(()=> appendLog('Restart abgeschlossen — Ready'), 900);
+      });
+
+      // Contact form front-end validation (no backend)
+      const form = q('#contact-form');
+      const formMsg = q('#form-msg');
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        formMsg.textContent = '';
+        const name = q('#name').value.trim();
+        const email = q('#email').value.trim();
+        if (!name) { formMsg.style.color = 'var(--danger)'; formMsg.textContent = 'Bitte Name angeben.'; return; }
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) { formMsg.style.color = 'var(--danger)'; formMsg.textContent = 'Bitte gültige Email.'; return; }
+        // Simuliere Absenden
+        formMsg.style.color = 'var(--muted)';
+        formMsg.textContent = 'Sende Nachricht...';
+        setTimeout(() => {
+          formMsg.style.color = 'var(--success)';
+          formMsg.textContent = 'Danke! Wir melden uns innerhalb von 24 Stunden.';
+          form.reset();
+        }, 900);
+      });
+
+      // Small accessibility: allow starting logs with Enter when focused
+      startBtn.addEventListener('keyup', (e) => { if (e.key === 'Enter') startLogs(); });
+
+      // Initial small log
+      appendLog('Status: System bereit');
     });
   </script>
 </body>
